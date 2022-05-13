@@ -17,7 +17,5 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
-        print('connected')
     finally:
         db.close()
-        print('disconnected')

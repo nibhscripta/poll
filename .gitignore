@@ -2,3 +2,4 @@ __pycache__
 .env
 /backend/migrations/versions
 venv
+poll.session.sql

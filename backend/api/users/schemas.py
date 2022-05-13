@@ -12,6 +12,9 @@ class PublicUser(BaseModel):
 class PrivateUser(PublicUser):
     email: EmailStr
     
+    class Config:
+        orm_mode: True
+    
 class CreateUser(BaseModel):
     username: str
     email: EmailStr
