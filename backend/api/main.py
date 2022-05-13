@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .users.router import router as UserRouter
+from .authentication.router import router as AuthenticationRouter
 
 origins = [
            "*"
@@ -24,3 +25,5 @@ def hello():
     return {'message': 'hello world!'}
 
 app.include_router(UserRouter)
+app.include_router(AuthenticationRouter)
+
