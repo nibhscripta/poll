@@ -3,4 +3,4 @@ __pycache__
 /backend/migrations/versions
 venv
 poll.session.sql
-.vscode
+.vscode/
