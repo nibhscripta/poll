@@ -7,7 +7,7 @@ from .crud import create_new_user
 
 
 router = APIRouter(
-    prefix='/users',
+    prefix='/u',
     tags=['Users']
 )
 
