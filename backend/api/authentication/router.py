@@ -7,7 +7,7 @@ from sqlalchemy import select
 from ..database import get_db
 from ..users.models import User
 from ..security import password
-from ..security.oauth2 import create_access_token
+from ..security.oauth2 import create_access_tokens
 from ..security import tokenschema
 
 
@@ -24,5 +24,8 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Invalid credentials')
     if not password.verify(user_credentials.password, user.password):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Invalid credentials')
-    access_token =  create_access_token(data={"user_id":user.username})
-    return {"access_token": access_token, "token_type": "bearer"}
+    access_tokens =  create_access_tokens(data={"user_id":user.username})
+    return {
+        "access_token": access_tokens['access_token'], 
+        "refresh_token": access_tokens['refresh_token']
+        }
