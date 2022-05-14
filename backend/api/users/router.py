@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from .schemas import CreateUser, PrivateUser
 from ..database import get_db
 from .crud import create_new_user
+from ..security.oauth2 import get_current_user
+from .models import User
 
 
 router = APIRouter(
@@ -17,11 +19,11 @@ def create_user(new_user: CreateUser, db: Session = Depends(get_db)):
     return new_user
 
 
-# @router.get('/{id}', response_model=user.UserResponse)
-# def get_user(id: int, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
-#     if id != current_user.id:
-#         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorized to perform this request')
-#     user = db.query(models.User).filter(models.User.id == id).first()
-#     if not user:
-#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'user with id {id} does not exist.')
-#     return user
+@router.get('/{username}', response_model=PrivateUser)
+def get_user(username: str, db: Session = Depends(get_db), current_user: int = Depends(get_current_user)):
+    if username != current_user.username:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='Not authorized to perform this request')
+    user = db.query(User).filter(User.username == username).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='user does not exist')
+    return user.__dict__
