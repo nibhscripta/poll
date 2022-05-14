@@ -38,7 +38,10 @@ def create_refresh_token(data: dict):
         })
     encoded_refresh = jwt.encode(to_encode_refresh, SECRET_KEY, algorithm=ALGORITHM)
     return {"refresh_token": encoded_refresh}
-    
+
+def create_access_tokens(data: dict):
+    return create_access_token(data) | create_refresh_token(data)
+
 def verify_access_token(token:str, credentials_exception):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -52,9 +55,6 @@ def verify_access_token(token:str, credentials_exception):
     except JWTError:
         raise credentials_exception
     return token_data
-
-def create_access_tokens(data: dict):
-    return create_access_token(data) | create_refresh_token(data)
 
 def verify_refresh_token(token:str, credentials_exception):
     try:
@@ -70,19 +70,12 @@ def verify_refresh_token(token:str, credentials_exception):
         raise credentials_exception
     return token_data    
 
-def get_refresh_token(refresh_token:str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+def get_new_access_token(refresh_token:str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate credentials', headers={"WWW-Authenticate": "Bearer"})
     token = verify_refresh_token(refresh_token, credentials_exception)
     user = db.query(User).filter(User.username == token.username).first()
-    data = {"username":user.username}
-    to_encode_access = data.copy()
-    expire_access = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode_access.update({
-        "exp": expire_access, 
-        "token_type": "access_token"
-        })
-    encoded_access = jwt.encode(to_encode_access, SECRET_KEY, algorithm=ALGORITHM)
-    return {"access_token": encoded_access}
+    new_access_token = create_access_token({"username":user.username})
+    return new_access_token
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Could not validate credentials', headers={"WWW-Authenticate": "Bearer"})

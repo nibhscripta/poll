@@ -7,7 +7,7 @@ from sqlalchemy import select
 from ..database import get_db
 from ..users.models import User
 from ..security import password
-from ..security.oauth2 import create_access_tokens, get_refresh_token
+from ..security.oauth2 import create_access_tokens, get_new_access_token
 from ..security import tokenschema
 
 
@@ -27,6 +27,6 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends(), db: Session =
     access_tokens =  create_access_tokens(data={"username":user.username})
     return access_tokens
     
-@router.post('/refresh_access/')
-def refresh_access_token(refresh_token: str):
-    return get_refresh_token(refresh_token)
+@router.get('/refresh_access/')
+def refresh_access_token(refresh_token: str, db: Session = Depends(get_db)):
+    return get_new_access_token(refresh_token, db)
