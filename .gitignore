@@ -1,6 +1,34 @@
+#backend
 __pycache__
 .env
 /backend/migrations/versions
 venv
 poll.session.sql
 .vscode/
+
+#frontend-web
+
+# dependencies
+/frontend/web/node_modules
+/frontend/web/.pnp
+/frontend/web/.pnp.js
+
+# testing
+/frontend/web/coverage
+
+# production
+/frontend/web/build
+
+# misc
+/frontend/web/.DS_Store
+/frontend/web/.env.local
+/frontend/web/.env.development.local
+/frontend/web/.env.test.local
+/frontend/web/.env.production.local
+
+/frontend/web/npm-debug.log*
+/frontend/web/yarn-debug.log*
+/frontend/web/yarn-error.log*
+
+/frontend/web/.gitignore
+/frontend/web/README.md
