@@ -15,6 +15,7 @@ router = APIRouter(
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=PrivateUser)
 def create_user(new_user: CreateUser, db: Session = Depends(get_db)):
+    new_user.email = new_user.email.lower()
     new_user = create_new_user(db, new_user)
     return new_user
 

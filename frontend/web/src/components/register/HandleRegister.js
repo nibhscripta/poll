@@ -8,6 +8,25 @@ const handleRegister = async (e, setIsError, setError, navigate) => {
   const email = t.email.value;
   let password = t.password.value;
   let confirmPassowrd = t.confirm_password.value;
+
+  if (!username || !email || !password || !confirmPassowrd) {
+    setIsError(true);
+    setError("Fill out all fields.");
+    return;
+  }
+  const usernameValidation = /\w$/;
+  if (!usernameValidation.test(username)) {
+    setIsError(true);
+    setError("Username can only contain letters, numbers, and underscores.");
+    return;
+  }
+  const emailValidation =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (!emailValidation.test(email)) {
+    setIsError(true);
+    setError("Invalid email address.");
+    return;
+  }
   if (password === confirmPassowrd) {
     const res = await registerUser(username, email, password);
     if (res === "username or email taken") {

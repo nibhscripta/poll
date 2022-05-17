@@ -35,6 +35,9 @@
 .register-form input:focus {
   border-bottom: 2px solid #fff;
 }
+.register-form input:invalid {
+  border-bottom: 2px solid red;
+}
 .register-form button {
   border-radius: 5px;
   border: 1px solid #999;
@@ -57,4 +60,6 @@
 }
 .register-error p {
   color: red;
+  max-width: 400px;
+  font-size: 20px;
 }
