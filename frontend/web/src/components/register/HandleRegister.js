@@ -1,5 +1,7 @@
 import { registerUser } from "../../helpers/api_requests/RegisterUser";
 
+var entropy = require("string-entropy");
+
 const handleRegister = async (e, setIsError, setError, navigate) => {
   e.preventDefault();
 
@@ -8,6 +10,8 @@ const handleRegister = async (e, setIsError, setError, navigate) => {
   const email = t.email.value;
   let password = t.password.value;
   let confirmPassowrd = t.confirm_password.value;
+
+  console.log("Entropy:\t", entropy(password));
 
   if (!username || !email || !password || !confirmPassowrd) {
     setIsError(true);
