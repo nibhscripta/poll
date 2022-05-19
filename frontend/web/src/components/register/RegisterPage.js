@@ -62,6 +62,7 @@ const RegisterPage = () => {
                       formik.touched.username && Boolean(formik.errors.username)
                     }
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     defaultValue={formik.values.username}
                   />
                 </Grid>
@@ -74,6 +75,7 @@ const RegisterPage = () => {
                     type="text"
                     autoCapitalize="off"
                     autoComplete="off"
+                    onBlur={formik.handleBlur}
                     helperText={formik.errors.email ? formik.errors.email : " "}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     onChange={formik.handleChange}
@@ -96,6 +98,7 @@ const RegisterPage = () => {
                       formik.touched.password && Boolean(formik.errors.password)
                     }
                     onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     defaultValue={formik.values.password}
                   />
                 </Grid>
