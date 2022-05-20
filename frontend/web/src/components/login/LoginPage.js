@@ -41,13 +41,11 @@ const LoginPage = () => {
                     fullWidth={true}
                     variant="outlined"
                     name="username"
-                    label="Username"
+                    label="Username or email"
                     autoCapitalize="off"
                     autoComplete="off"
                     helperText={
-                      formik.errors.username
-                        ? formik.errors.username
-                        : "Use your username or email"
+                      formik.errors.username ? formik.errors.username : " "
                     }
                     error={
                       formik.touched.username && Boolean(formik.errors.username)
@@ -55,7 +53,7 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     defaultValue={formik.values.username}
-                    margin="none"
+                    defaultValue={defaultUsername}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -76,13 +74,20 @@ const LoginPage = () => {
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     defaultValue={formik.values.password}
-                    margin="none"
                   />
                 </Grid>
-                <Grid item xs={8} md={6}>
+                <Grid item xs={4}>
                   <Button variant="contained" color="primary" type="submit">
                     Sign in
                   </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    Need an account?{" "}
+                    <Link to="/register" color="primary">
+                      Create one
+                    </Link>
+                  </Typography>
                 </Grid>
               </Grid>
             </Paper>

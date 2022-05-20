@@ -1,5 +1,5 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-// import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { useState } from "react";
 import {
   Grid,
@@ -120,15 +120,23 @@ const RegisterPage = () => {
                 </Grid>
                 <Grid item xs={8} md={8.5}>
                   <FormControlLabel
+                    onClick={handleClickShowPassword}
                     control={<Checkbox defaultChecked />}
                     label="Show password"
-                    onClick={handleClickShowPassword}
                   />
                 </Grid>
                 <Grid item xs={2.5} md={3.5}>
                   <Button variant="contained" color="primary" type="submit">
                     Create
                   </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    Have an account?{" "}
+                    <Link to="/login" color="primary">
+                      Sign in
+                    </Link>
+                  </Typography>
                 </Grid>
               </Grid>
             </Paper>
