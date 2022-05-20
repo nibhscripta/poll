@@ -1,7 +1,15 @@
 import changeTitle from "../../helpers/dom/changeTitle";
 // import { Link, useNavigate } from "react-router-dom";
 // import { useState } from "react";
-import { Grid, TextField, Button, Paper, Typography } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
 // import Icon from "@mui/material/Icon";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -23,6 +31,7 @@ const RegisterPage = () => {
       username: "",
       email: "",
       password: "",
+      showPassword: false,
     },
     onSubmit: (values) => register(values),
     validationSchema: Yup.object({
@@ -35,13 +44,20 @@ const RegisterPage = () => {
         .required("Required field."),
     }),
   });
+
+  const handleClickShowPassword = () => {
+    formik.setValues({
+      ...formik.values,
+      showPassword: !formik.values.showPassword,
+    });
+  };
   return (
     <Grid container style={{ margin: "40px 0" }}>
       <Grid item xs={12}>
         <form onSubmit={formik.handleSubmit}>
           <Container maxWidth="xs">
-            <Paper variant="outlined" style={{ padding: "40px" }}>
-              <Grid container spacing={1}>
+            <Paper variant="outlined" style={{ padding: "30px" }}>
+              <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Typography variant="h5" component="div">
                     Create an account
@@ -88,7 +104,7 @@ const RegisterPage = () => {
                     variant="outlined"
                     name="password"
                     label="Password"
-                    type="password"
+                    type={formik.values.showPassword ? "text" : "password"}
                     autoCapitalize="off"
                     autoComplete="off"
                     helperText={
@@ -102,7 +118,14 @@ const RegisterPage = () => {
                     defaultValue={formik.values.password}
                   />
                 </Grid>
-                <Grid item xs={8} md={6}>
+                <Grid item xs={8} md={8.5}>
+                  <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label="Show password"
+                    onClick={handleClickShowPassword}
+                  />
+                </Grid>
+                <Grid item xs={2.5} md={3.5}>
                   <Button variant="contained" color="primary" type="submit">
                     Create
                   </Button>
