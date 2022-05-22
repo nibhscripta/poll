@@ -10,6 +10,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 // import Icon from "@mui/material/Icon";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -31,7 +32,6 @@ const RegisterPage = () => {
       username: "",
       email: "",
       password: "",
-      showPassword: false,
     },
     onSubmit: (values) => register(values),
     validationSchema: Yup.object({
@@ -44,21 +44,14 @@ const RegisterPage = () => {
         .required("Required field."),
     }),
   });
-
-  const handleClickShowPassword = () => {
-    formik.setValues({
-      ...formik.values,
-      showPassword: !formik.values.showPassword,
-    });
-  };
   return (
     <Grid container style={{ margin: "40px 0" }}>
       <Grid item xs={12}>
         <form onSubmit={formik.handleSubmit}>
           <Container maxWidth="xs">
             <Paper variant="outlined" style={{ padding: "30px" }}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sx={{ m: "10px 0" }}>
                   <Typography variant="h5" component="div">
                     Create an account
                   </Typography>
@@ -71,6 +64,7 @@ const RegisterPage = () => {
                     label="Username"
                     autoCapitalize="off"
                     autoComplete="off"
+                    size="small"
                     helperText={
                       formik.errors.username ? formik.errors.username : " "
                     }
@@ -89,6 +83,7 @@ const RegisterPage = () => {
                     name="email"
                     label="Email"
                     type="text"
+                    size="small"
                     autoCapitalize="off"
                     autoComplete="off"
                     onBlur={formik.handleBlur}
@@ -104,7 +99,8 @@ const RegisterPage = () => {
                     variant="outlined"
                     name="password"
                     label="Password"
-                    type={formik.values.showPassword ? "text" : "password"}
+                    type="password"
+                    size="small"
                     autoCapitalize="off"
                     autoComplete="off"
                     helperText={
@@ -118,25 +114,10 @@ const RegisterPage = () => {
                     defaultValue={formik.values.password}
                   />
                 </Grid>
-                <Grid item xs={8} md={8.5}>
-                  <FormControlLabel
-                    onClick={handleClickShowPassword}
-                    control={<Checkbox defaultChecked />}
-                    label="Show password"
-                  />
-                </Grid>
-                <Grid item xs={2.5} md={3.5}>
-                  <Button variant="contained" color="primary" type="submit">
-                    Create
-                  </Button>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="subtitle1" gutterBottom component="div">
-                    Have an account?{" "}
-                    <Link to="/login" color="primary">
-                      Sign in
-                    </Link>
-                  </Typography>
+                <Grid item xs={4}>
+                  <LoadingButton variant="contained" type="submit">
+                    Submit
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Paper>
