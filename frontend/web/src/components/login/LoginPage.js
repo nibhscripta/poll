@@ -1,17 +1,34 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-import { useLocation, Link } from "react-router-dom";
-import { Grid, TextField, Button, Paper, Typography } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import {
+  Grid,
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  Icon,
+} from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Container } from "@mui/system";
+import { useState } from "react";
+import { loginUser } from "../../helpers/api_requests/LoginUser";
 
 const LoginPage = () => {
   changeTitle("Sign in");
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
   const defaultUsername = query.get("username");
-  const login = (vals) => {
-    console.log(vals);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
+  const login = async (vals) => {
+    const res = await loginUser(vals);
+    if (res.request.status !== 200) {
+      setIsError(true);
+      setError("Invalid credentials");
+    } else if (res.status === 200) {
+      console.log(res.data.access_token, res.data.refresh_token);
+    }
   };
   const formik = useFormik({
     initialValues: {
@@ -30,9 +47,9 @@ const LoginPage = () => {
         <form onSubmit={formik.handleSubmit}>
           <Container maxWidth="xs">
             <Paper variant="outlined" style={{ padding: "40px" }}>
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h5" component="div" sx={{ m: "10px 0" }}>
                     Sign in
                   </Typography>
                 </Grid>
@@ -44,6 +61,7 @@ const LoginPage = () => {
                     label="Username or email"
                     autoCapitalize="off"
                     autoComplete="off"
+                    size="small"
                     helperText={
                       formik.errors.username ? formik.errors.username : " "
                     }
@@ -52,8 +70,7 @@ const LoginPage = () => {
                     }
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    defaultValue={formik.values.username}
-                    defaultValue={defaultUsername}
+                    defaultValue={defaultUsername || formik.values.username}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -65,6 +82,7 @@ const LoginPage = () => {
                     type="password"
                     autoCapitalize="off"
                     autoComplete="off"
+                    size="small"
                     helperText={
                       formik.errors.password ? formik.errors.password : " "
                     }
@@ -81,14 +99,20 @@ const LoginPage = () => {
                     Sign in
                   </Button>
                 </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="subtitle1" gutterBottom component="div">
-                    Need an account?{" "}
-                    <Link to="/register" color="primary">
-                      Create one
-                    </Link>
-                  </Typography>
-                </Grid>
+                {isError && (
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{ color: "red", fontSize: 40, padding: "5px 0" }}
+                  >
+                    <Typography variant="subtitle1" component="div">
+                      <Icon sx={{ fontSize: 20, verticalAlign: "middle" }}>
+                        errorOutlineIcon
+                      </Icon>{" "}
+                      {error}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             </Paper>
           </Container>

@@ -1,16 +1,7 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {
-  Grid,
-  TextField,
-  Button,
-  Paper,
-  Typography,
-  Checkbox,
-  FormControlLabel,
-  Icon,
-} from "@mui/material";
+import { Grid, TextField, Paper, Typography, Icon } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as Yup from "yup";
 import { useFormik } from "formik";
