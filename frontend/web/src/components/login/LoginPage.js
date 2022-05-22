@@ -1,5 +1,5 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Grid, TextField, Paper, Typography, Icon } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -9,6 +9,7 @@ import { loginUser } from "../../helpers/api_requests/LoginUser";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   changeTitle("Sign in");
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
@@ -21,7 +22,8 @@ const LoginPage = () => {
       setIsError(true);
       setError("Invalid credentials");
     } else if (res.status === 200) {
-      console.log(res.data.access_token);
+      localStorage.setItem("refresh_token", res.data.refresh_token);
+      navigate("/");
     }
   };
   const formik = useFormik({
@@ -35,6 +37,9 @@ const LoginPage = () => {
       password: Yup.string().required("Required field."),
     }),
   });
+  if (localStorage.getItem("refresh_token")) {
+    return <Navigate to="/" />;
+  }
   return (
     <Grid container style={{ margin: "40px 0" }}>
       <Grid item xs={12}>

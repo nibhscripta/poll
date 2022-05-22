@@ -6,8 +6,8 @@ export const loginUser = async (vals) => {
   data.append("password", vals.password);
 
   const options = {
+    withCredentials: true,
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    // withCredentials: true,
     redirect: "follow",
   };
   const res = await instance.post("/login", data, options).catch((error) => {
