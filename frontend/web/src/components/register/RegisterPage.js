@@ -1,6 +1,6 @@
 import changeTitle from "../../helpers/dom/changeTitle";
 import { Link, useNavigate } from "react-router-dom";
-// import { useState } from "react";
+import { useState } from "react";
 import {
   Grid,
   TextField,
@@ -9,23 +9,28 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  Icon,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-// import Icon from "@mui/material/Icon";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-// import "./RegisterPage.css";
-// import handleRegister from "./HandleRegister";
-// import RegistrationError from "./RegistrationError";
 import { Container } from "@mui/system";
+import { registerUser } from "../../helpers/api_requests/RegisterUser";
 
 const RegisterPage = () => {
-  // const navigate = useNavigate();
-  // const [isError, setIsError] = useState(false);
-  // const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
   changeTitle("Create an account");
-  const register = (vals) => {
-    console.log(vals);
+  const register = async (vals) => {
+    const res = await registerUser(vals);
+    if (res.request.status !== 201) {
+      setIsError(true);
+      setError(res.response.data.detail);
+    } else if (res.status === 201) {
+      navigate(`/login?username=${res.data.username}`);
+    }
+    formik.setSubmitting(false);
   };
   const formik = useFormik({
     initialValues: {
@@ -115,10 +120,28 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <LoadingButton variant="contained" type="submit">
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={formik.isSubmitting}
+                  >
                     Submit
                   </LoadingButton>
                 </Grid>
+                {isError && (
+                  <Grid
+                    item
+                    xs={12}
+                    sx={{ color: "red", fontSize: 40, padding: "5px 0" }}
+                  >
+                    <Typography variant="subtitle1" component="div">
+                      <Icon sx={{ fontSize: 20, verticalAlign: "middle" }}>
+                        errorOutlineIcon
+                      </Icon>{" "}
+                      {error}
+                    </Typography>
+                  </Grid>
+                )}
               </Grid>
             </Paper>
           </Container>

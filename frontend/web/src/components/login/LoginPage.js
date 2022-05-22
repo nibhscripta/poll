@@ -9,7 +9,7 @@ const LoginPage = () => {
   changeTitle("Sign in");
   const useQuery = () => new URLSearchParams(useLocation().search);
   const query = useQuery();
-  const defaultUsername = query.get("u");
+  const defaultUsername = query.get("username");
   const login = (vals) => {
     console.log(vals);
   };

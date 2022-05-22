@@ -10,10 +10,10 @@ from ..security import password
 def create_new_user(db: Session, new_user: CreateUser):
     existing_user = db.query(User).filter(User.username == new_user.username).first()
     if existing_user:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="username taken")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Username taken")
     existing_user = db.query(User).filter(User.email == new_user.email).first()
     if existing_user:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="account already registered with this email address")
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email registered to another user")
     hashed_password = password.hash(new_user.password)
     new_user.password = hashed_password
     new_user_model = User(**new_user.dict())
