@@ -116,7 +116,7 @@ const RegisterPage = () => {
                     type="submit"
                     loading={formik.isSubmitting}
                   >
-                    Submit
+                    Create
                   </LoadingButton>
                 </Grid>
                 {isError && (

@@ -1,18 +1,12 @@
 import changeTitle from "../../helpers/dom/changeTitle";
 import { useLocation } from "react-router-dom";
-import {
-  Grid,
-  TextField,
-  Button,
-  Paper,
-  Typography,
-  Icon,
-} from "@mui/material";
+import { Grid, TextField, Paper, Typography, Icon } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Container } from "@mui/system";
 import { useState } from "react";
 import { loginUser } from "../../helpers/api_requests/LoginUser";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const LoginPage = () => {
   changeTitle("Sign in");
@@ -95,9 +89,13 @@ const LoginPage = () => {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <Button variant="contained" color="primary" type="submit">
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    loading={formik.isSubmitting}
+                  >
                     Sign in
-                  </Button>
+                  </LoadingButton>
                 </Grid>
                 {isError && (
                   <Grid
