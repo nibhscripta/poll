@@ -1,11 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .users.router import router as UserRouter
-from .authentication.router import router as AuthenticationRouter
+from .router import router as ApplicationRouter
 
 origins = [
-           "*"
+           "http://localhost:3000", "http://localhost:8000"
            ]
 
 app = FastAPI()
@@ -18,12 +17,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
-@app.get('/')
-def hello():
-    return {'message': 'hello world!'}
-
-app.include_router(UserRouter)
-app.include_router(AuthenticationRouter)
+app.include_router(ApplicationRouter)
 

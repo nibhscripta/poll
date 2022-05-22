@@ -7,6 +7,7 @@ export const loginUser = async (vals) => {
 
   const options = {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    // withCredentials: true,
     redirect: "follow",
   };
   const res = await instance.post("/login", data, options).catch((error) => {

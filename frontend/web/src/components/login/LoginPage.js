@@ -21,7 +21,7 @@ const LoginPage = () => {
       setIsError(true);
       setError("Invalid credentials");
     } else if (res.status === 200) {
-      console.log(res.data.access_token, res.data.refresh_token);
+      console.log(res.data.access_token);
     }
   };
   const formik = useFormik({
