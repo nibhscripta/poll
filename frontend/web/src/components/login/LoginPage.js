@@ -1,6 +1,13 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { Grid, TextField, Paper, Typography, Icon } from "@mui/material";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import {
+  Grid,
+  TextField,
+  Paper,
+  Typography,
+  Icon,
+  Button,
+} from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Container } from "@mui/system";
@@ -116,6 +123,14 @@ const LoginPage = () => {
                     </Typography>
                   </Grid>
                 )}
+              </Grid>
+              <Grid item xs={12} sx={{ marginTop: 1 }}>
+                <Typography variant="subtitle1" component="div">
+                  Don't have an account?
+                  <Link to="/register">
+                    <Button>Create one</Button>
+                  </Link>
+                </Typography>
               </Grid>
             </Paper>
           </Container>

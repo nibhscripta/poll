@@ -1,7 +1,14 @@
 import changeTitle from "../../helpers/dom/changeTitle";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import { Grid, TextField, Paper, Typography, Icon } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Paper,
+  Typography,
+  Icon,
+  Button,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -133,6 +140,14 @@ const RegisterPage = () => {
                     </Typography>
                   </Grid>
                 )}
+                <Grid item xs={12} sx={{ marginTop: 1 }}>
+                  <Typography variant="subtitle1" component="div">
+                    Already have an account?
+                    <Link to="/login">
+                      <Button>Sign in</Button>
+                    </Link>
+                  </Typography>
+                </Grid>
               </Grid>
             </Paper>
           </Container>
